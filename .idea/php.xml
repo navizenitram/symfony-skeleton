@@ -2,9 +2,9 @@
 <project version="4">
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="13b14f7d-8433-4378-a031-e3e25d8a7903" name="symfony-api-platform-be" home="docker-compose://DATA" debugger_id="php.debugger.XDebug">
-        <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_COMPOSE_SERVICE_NAME="symfony-api-platform-be" DOCKER_REMOTE_PROJECT_PATH="/opt/project">
-          <type_data command="EXEC" />
+      <interpreter id="961c35b2-e739-4537-b292-9af135925c3f" name="symfony-platform-be" home="docker-compose://DATA" debugger_id="php.debugger.XDebug">
+        <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_COMPOSE_SERVICE_NAME="symfony-platform-be" DOCKER_REMOTE_PROJECT_PATH="/opt/project">
+          <type_data command="RUN" />
           <dockerComposeConfigurationPaths>
             <item value="$PROJECT_DIR$/docker-compose.yml" />
           </dockerComposeConfigurationPaths>
@@ -15,7 +15,7 @@
   </component>
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
-      <interpreter name="symfony-api-platform-be">
+      <interpreter name="symfony-platform-be">
         <phpinfo binary_type="PHP" php_cli="/usr/local/bin/php" path_separator=":" version="7.4.6">
           <additional_php_ini>/usr/local/etc/php/conf.d/05-opcache.ini, /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini, /usr/local/etc/php/conf.d/docker-php-ext-gd.ini, /usr/local/etc/php/conf.d/docker-php-ext-intl.ini, /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini, /usr/local/etc/php/conf.d/docker-php-ext-soap.ini, /usr/local/etc/php/conf.d/docker-php-ext-sockets.ini, /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, /usr/local/etc/php/conf.d/docker-php-ext-zip.ini, /usr/local/etc/php/conf.d/xdebug.ini</additional_php_ini>
           <configuration_file>/usr/local/etc/php/php.ini</configuration_file>
