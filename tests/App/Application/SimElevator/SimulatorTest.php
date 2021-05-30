@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application\SimElevator;
+namespace App\Application\SimElevator;
 
 use App\Application\SimElevator\Elevator;
 use App\Application\SimElevator\ElevatorSequence;
