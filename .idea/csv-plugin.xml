@@ -3,7 +3,28 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/src/Applicaction/SimElevator/Elevator.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/src/Applicaction/SimElevator/SimulatorRequest.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/Application/Katas/FizzBuzz.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/tests/App/Application/SimElevator/SimulatorTest.php">
           <value>
             <Attribute>
               <option name="separator" value=";" />
