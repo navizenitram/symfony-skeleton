@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/src/Application/Report/Report.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/src/Application/Report/ReportTest.php">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/Application/Simulator/Elevator.php">
           <value>
             <Attribute>
@@ -24,7 +38,35 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/src/Application/Simulator/Journey.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/Application/Simulator/Simulator.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/src/Application/Simulator/SimulatorResponse.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/src/Command/Simulator/GenerateElevatorReportCommand.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/tests/App/Application/Simulator/JourneyTest.php">
           <value>
             <Attribute>
               <option name="separator" value=";" />

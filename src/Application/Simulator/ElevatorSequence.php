@@ -9,13 +9,13 @@ use DateTime;
 
 final class ElevatorSequence
 {
-    private $sequenceId;
-    private $interval;
-    private $fromTime;
-    private $toTime;
-    private $fromFloor;
-    private $toFloor;
-    private $runTime;
+    private int $sequenceId;
+    private int $interval;
+    private DateTime $fromTime;
+    private DateTime $toTime;
+    private array $fromFloor;
+    private array $toFloor;
+    private DateTime $runTime;
 
     public function __construct(
         int $sequenceId,
@@ -43,12 +43,13 @@ final class ElevatorSequence
     }
 
     /**
-     * @param \DateTimeInterface $currenTime
+     * @param \DateTimeInterface $currentTime
      * @throws \Exception
      */
-    public function moveToNextRunTime(\DateTimeInterface $currenTime): void
+    public function moveToNextRunTime(\DateTimeInterface $currentTime): void
     {
-        $this->runTime = $currenTime->add(new DateInterval('PT' . $this->interval . 'M'));
+        $newRuntTime = new DateTime($currentTime->format("H:i"));
+        $this->runTime = $newRuntTime->add(new DateInterval('PT' . $this->interval . 'M'));
     }
     /**
      * @return int
@@ -96,6 +97,19 @@ final class ElevatorSequence
     public function getToFloor(): array
     {
         return $this->toFloor;
+    }
+
+    public function getJourneys(): array
+    {
+        $journeys = [];
+        foreach ($this->getFromFloor() as $fromFloor) {
+            foreach ($this->getToFloor() as $toFloor) {
+                $journeys[] = new Journey($fromFloor, $toFloor);
+            }
+        }
+
+        return $journeys;
+
     }
 
 }

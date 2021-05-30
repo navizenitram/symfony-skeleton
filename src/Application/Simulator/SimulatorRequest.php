@@ -8,10 +8,10 @@ use DateTime;
 
 final class SimulatorRequest
 {
-    private $startTime;
-    private $endTime;
-    private $elevators = [];
-    private $elevatorSequences = [];
+    private DateTime $startTime;
+    private DateTime $endTime;
+    private array $elevators = [];
+    private array $elevatorSequences = [];
 
     /**
      * @return DateTime

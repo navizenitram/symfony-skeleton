@@ -4,80 +4,112 @@ declare(strict_types=1);
 
 namespace App\Application\Simulator;
 
+use App\Application\Report\Report;
 use DateInterval;
 use DatePeriod;
+use DateTimeInterface;
 
 final class Simulator
 {
 
+
+    private Report $report;
+
+    public function __construct(Report $report)
+    {
+        $this->report = $report;
+    }
+
     public function execute(SimulatorRequest $request): SimulatorResponse
     {
         $response = new SimulatorResponse();
+
         $report = [];
+
+        /** @var  $elevatorsAvailable */
+        $elevatorsAvailable = $request->getElevators();
 
 
         $interval = DateInterval::createFromDateString('1 minute');
         $period = new DatePeriod($request->getStartTime(), $interval, $request->getEndTime());
 
         foreach ($period as $currentTime) {
-            //$currentTime ->format("H:i\n");
             $concurrentSequences = [];
             /** @var  ElevatorSequence $elevatorSequence */
             foreach ($request->getElevatorSequences() as $elevatorSequence) {
-
-                /*echo $elevatorSequence->getSequenceId()."]".$currentTime ->format("H:i")."---"
-                    .$elevatorSequence->getRunTime()->format
-                    ("H:i").PHP_EOL;*/
-
-
-                if($this->isSequenceActive($elevatorSequence, $currentTime)){
-
-                        if($currentTime == $elevatorSequence->getRunTime()){
-
-                            $concurrentSequences[] = $elevatorSequence;
-                        }
-
+                if ($this->isSequenceActive($elevatorSequence, $currentTime)) {
+                    if ($currentTime == $elevatorSequence->getRunTime()) {
+                        $concurrentSequences[] = $elevatorSequence;
+                    }
                 }
             }
 
-            /** @var Elevator $elevator */
-            $elevatorNeeded = count($concurrentSequences);
-
-
+            $elevatorJourneys = [];
             foreach ($concurrentSequences as $elevatorSequence) {
-
-                echo "Secuencia:". $elevatorSequence->getSequenceId(). "[" .$elevatorSequence->getRunTime()
-                                                                                             ->format("H:i"). "]"
-                    .PHP_EOL;
-
-                foreach ($elevatorSequence->getFromFloor() as $fromFloorNumber) {
-                    foreach ($request->getElevators() as $elevator) {
-                        foreach ($elevatorSequence->getToFloor() as $toFloorNumber) {
-
-                        }
-                    }
+                /** @var Journey $journey */
+                foreach ($elevatorSequence->getJourneys() as $journey) {
+                    $elevatorJourneys[] = $journey;
                 }
-
-
 
 
                 $elevatorSequence->moveToNextRunTime($currentTime);
             }
+            if (!empty($elevatorJourneys) && (count($elevatorJourneys) <= count($elevatorsAvailable))) {
+                /** @var Journey $journey */
+                $elevatorSelector = 0;
+                foreach ($elevatorJourneys as $journey) {
+                    /** @var Elevator $currentElevator */
+                    $currentElevator = $elevatorsAvailable[$elevatorSelector];
+                    if ($currentElevator->getCurrentFloor() !== $journey->getFrom()) {
+                        $emptyJourney = new Journey($currentElevator->getCurrentFloor(), $journey->getFrom());
+                        $currentElevator->incrementFloorCounter($emptyJourney->getFloors());
+                    }
+                    $currentElevator->setCurrentFloor($journey->getTo());
+                    $currentElevator->incrementFloorCounter($journey->getFloors());
+
+                    $elevatorSelector++;
+                    if ($elevatorSelector === count($elevatorsAvailable)) {
+                        $elevatorSelector = 0;
+                    }
+                }
+            }
+
+            if (count($elevatorJourneys) > count($elevatorsAvailable)) {
+                $report['warnings'][$currentTime->format("H:i")] = count($elevatorJourneys);
+            }
 
 
+            $reportRow = [];
+            /** @var Elevator $elevator */
+            foreach ($elevatorsAvailable as $elevator) {
+                $reportRow[] =
+                    $elevator->getElevatorId() .
+                    ':' .
+                    $elevator->getCurrentFloor() .
+                    ':' .
+                    $elevator->getFloorCounter();
+            }
 
+            $report['times'][$currentTime->format("H:i")] = $reportRow;
         }
 
+
+        foreach ($elevatorsAvailable as $elevator) {
+            $report['counters'][$elevator->getElevatorId()] = $elevator->getFloorCounter();
+        }
+
+        $reportResult = $this->report->executeReport($report);
+        $response->setResultCode((int)!$reportResult);
 
         return $response;
     }
 
     /**
      * @param ElevatorSequence $elevatorSequence
-     * @param \DateTimeInterface $currentTime
+     * @param DateTimeInterface $currentTime
      * @return bool
      */
-    private function isSequenceActive(ElevatorSequence $elevatorSequence, \DateTimeInterface $currentTime): bool
+    private function isSequenceActive(ElevatorSequence $elevatorSequence, DateTimeInterface $currentTime): bool
     {
         return $currentTime >= $elevatorSequence->getFromTime() && $currentTime <= $elevatorSequence->getToTime();
     }

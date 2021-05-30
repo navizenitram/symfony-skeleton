@@ -1,16 +1,30 @@
 <?php
 
-namespace App\Application\Simulator;
+namespace App\Command\Simulator;
 
+use App\Application\Report\ReportCsv;
 use App\Application\Report\ReportEcho;
-use DateInterval;
+use App\Application\Simulator\Elevator;
+use App\Application\Simulator\ElevatorSequence;
+use App\Application\Simulator\Simulator;
+use App\Application\Simulator\SimulatorRequest;
 use DateTime;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class SimulatorTest extends TestCase
+class GenerateElevatorReportCommand extends Command
 {
-    public function testShouldSomething()
+    protected static $defaultName = 'bodas:elevator:report';
+
+    protected function configure()
     {
+        $this->setDescription("Generate Elevator Report in CSV");
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+
         $simulatorRequest = new SimulatorRequest();
 
         $simulatorRequest->setStartTime(new DateTime('09:00'));
@@ -73,11 +87,10 @@ class SimulatorTest extends TestCase
             )
         );
 
-        $simulator = new Simulator(new ReportEcho());
+        $reportCsv = new ReportCsv('test.csv');
+        $simulator = new Simulator($reportCsv);
         $simulatorResponse = $simulator->execute($simulatorRequest);
 
-        $this->assertSame(0, $simulatorResponse->getResultCode());
-
+        return $simulatorResponse->getResultCode();
     }
-
 }
