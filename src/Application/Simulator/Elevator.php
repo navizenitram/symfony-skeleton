@@ -11,6 +11,9 @@ final class Elevator
     private $lastFloor;
     private $isFree;
     private $floorCounter;
+    private $sequenceId;
+
+
 
     public function __construct(
         int $elevatorId,
@@ -96,6 +99,22 @@ final class Elevator
     public function setFloorCounter(int $floorCounter): void
     {
         $this->floorCounter = $floorCounter;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * @param mixed $sequenceId
+     */
+    public function setSequenceId($sequenceId): void
+    {
+        $this->sequenceId = $sequenceId;
     }
 
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Simulator;
 
+use DateInterval;
 use DateTime;
 
 final class ElevatorSequence
@@ -14,6 +15,7 @@ final class ElevatorSequence
     private $toTime;
     private $fromFloor;
     private $toFloor;
+    private $runTime;
 
     public function __construct(
         int $sequenceId,
@@ -29,8 +31,25 @@ final class ElevatorSequence
         $this->toTime = $toTime;
         $this->fromFloor = $fromFloor;
         $this->toFloor = $toFloor;
+        $this->runTime = $fromTime->add(new DateInterval('PT' . $interval . 'M'));
     }
 
+    /**
+     * @return DateTime
+     */
+    public function getRunTime(): DateTime
+    {
+        return $this->runTime;
+    }
+
+    /**
+     * @param \DateTimeInterface $currenTime
+     * @throws \Exception
+     */
+    public function moveToNextRunTime(\DateTimeInterface $currenTime): void
+    {
+        $this->runTime = $currenTime->add(new DateInterval('PT' . $this->interval . 'M'));
+    }
     /**
      * @return int
      */
