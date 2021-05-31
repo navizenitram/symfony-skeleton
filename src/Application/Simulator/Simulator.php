@@ -37,11 +37,10 @@ final class Simulator
             $concurrentSequences = [];
             /** @var  ElevatorSequence $elevatorSequence */
             foreach ($request->getElevatorSequences() as $elevatorSequence) {
-                if ($this->isSequenceActive($elevatorSequence, $currentTime)) {
-                    if ($currentTime == $elevatorSequence->getRunTime()) {
+                if ($this->isSequenceActive($elevatorSequence, $currentTime) &&
+                    $currentTime == $elevatorSequence->getRunTime()) {
                         $concurrentSequences[] = $elevatorSequence;
                     }
-                }
             }
 
             $elevatorJourneys = [];
