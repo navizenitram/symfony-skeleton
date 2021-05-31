@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/reportgenerated2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/Application/Katas/FizzBuzz.php">
           <value>
             <Attribute>

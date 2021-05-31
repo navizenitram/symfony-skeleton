@@ -50,7 +50,6 @@ final class Simulator
                     $elevatorJourneys[] = $journey;
                 }
 
-
                 $elevatorSequence->moveToNextRunTime($currentTime);
             }
             if (!empty($elevatorJourneys) && (count($elevatorJourneys) <= count($elevatorsAvailable))) {
@@ -77,19 +76,7 @@ final class Simulator
                 $report['warnings'][$currentTime->format("H:i")] = count($elevatorJourneys);
             }
 
-
-            $reportRow = [];
-            /** @var Elevator $elevator */
-            foreach ($elevatorsAvailable as $elevator) {
-                $reportRow[] =
-                    $elevator->getElevatorId() .
-                    ':' .
-                    $elevator->getCurrentFloor() .
-                    ':' .
-                    $elevator->getFloorCounter();
-            }
-
-            $report['times'][$currentTime->format("H:i")] = $reportRow;
+            $report['times'][$currentTime->format("H:i")] = $this->generateReportByMinuteAndElevator($elevatorsAvailable);
         }
 
 
@@ -111,5 +98,28 @@ final class Simulator
     private function isSequenceActive(ElevatorSequence $elevatorSequence, DateTimeInterface $currentTime): bool
     {
         return $currentTime >= $elevatorSequence->getFromTime() && $currentTime <= $elevatorSequence->getToTime();
+    }
+
+    /**
+     * @param array $elevatorsAvailable
+     * @return array
+     */
+    private function generateReportByMinuteAndElevator(array $elevatorsAvailable): array
+    {
+
+        $reportRow = [];
+        /** @var Elevator $elevator */
+        foreach ($elevatorsAvailable as $elevator) {
+            $reportRow[] =
+                $elevator->getElevatorId() .
+                ':' .
+                $elevator->getCurrentFloor() .
+                ':' .
+                $elevator->getFloorCounter();
+        }
+
+
+        return $reportRow;
+
     }
 }
